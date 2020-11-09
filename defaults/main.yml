@@ -1,0 +1,9 @@
+---
+key_size: 2048
+key_type: RSA
+
+key_output_path: /tmp
+
+country_code: US
+organization_name: ssl-demo
+email_address: info@ssl-demo.com

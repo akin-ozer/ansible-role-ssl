@@ -1,0 +1,26 @@
+---
+- name: Make sure certs directory exists
+  file:
+    path: "{{ key_output_path }}"
+    state: directory
+
+- name: Generate an OpenSSL private key
+  community.crypto.openssl_privatekey:
+    path: "{{ key_output_path }}/{{ server_hostname }}_privkey.pem"
+    size: "{{ key_size }}"
+    type: "{{ key_type }}"
+    backup: yes
+- name: Generate an OpenSSL Certificate Signing Request with Subject information
+  community.crypto.openssl_csr:
+    path: "{{ key_output_path }}/{{ server_hostname }}.csr"
+    privatekey_path: "{{ key_output_path }}/{{ server_hostname }}_privkey.pem"
+    country_name: "{{ country_code }}"
+    organization_name: "{{ organization_name }}"
+    email_address: "{{ email_address }}"
+    common_name: "{{ server_hostname }}"
+- name: Generate a Self Signed OpenSSL certificate
+  community.crypto.openssl_certificate:
+    path: "{{ key_output_path }}/{{ server_hostname }}_cert.pem"
+    privatekey_path: "{{ key_output_path }}/{{ server_hostname }}_privkey.pem"
+    csr_path: "{{ key_output_path }}/{{ server_hostname }}.csr"
+    provider: selfsigned
