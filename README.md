@@ -6,7 +6,7 @@ Creates self signed SSL certificate for given host.
 **Requirements**
 ------------
 
-Pip is required on ansible machine. "pyOpenSSL" pip package is also required. "python-setuptools" is also required for pip. 
+pip and "python-setuptools" are required on ansible machine. "pyOpenSSL" pip package is also required.  
 
 **Role Variables**
 --------------
@@ -31,12 +31,19 @@ email_address: info@ssl-demo.com
 
 No role dependencies.
 
+**Output**
+------------
+
+Creates private key at {{ key_output_path }}/{{ server_hostname }}_privkey.pem
+
+Creates cert file at {{ key_output_path }}/{{ server_hostname }}_cert.pem
+
 **Example Playbook**
 ----------------
 
     - hosts: servers
       roles:
-         - { role: akin-ozer.ansible_role_ssl, server_hostname: example.com }
+         - { role: akin_ozer.ansible_role_ssl, server_hostname: example.com }
 
 **License**
 -------
